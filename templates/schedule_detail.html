@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h3 class="mb-4"><i class="fas fa-calendar-alt me-2"></i>Lịch học & Lịch thi</h3>
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-calendar-day me-2"></i>Lịch học</h5>
+                </div>
+                <div class="card-body">
+                    {% set days = ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'] %}
+                    {% for day in range(0, 6) %}
+                    <div class="mb-3 p-2 border rounded bg-light">
+                        <h6 class="text-primary mb-1"><i class="fas fa-calendar-day me-1"></i>{{ days[day] }}</h6>
+                        {% set lessons = schedules_grouped.get(day, []) %}
+                        {% if lessons %}
+                            {% for lesson in lessons %}
+                            <div class="mb-2">
+                                <span class="fw-bold">{{ lesson.course.name }}</span><br>
+                                <span><i class="fas fa-clock me-1"></i>{{ lesson.start_time }} - {{ lesson.end_time }}</span><br>
+                                <span><i class="fas fa-door-open me-1"></i>Phòng: {{ lesson.room }}</span>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <span class="text-muted">Không có lịch học</span>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-clipboard-list me-2"></i>Lịch thi</h5>
+                </div>
+                <div class="card-body">
+                    {% set days = ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'] %}
+                    {% for day in range(0, 6) %}
+                    <div class="mb-3 p-2 border rounded bg-light">
+                        <h6 class="text-success mb-1"><i class="fas fa-calendar-day me-1"></i>{{ days[day] }}</h6>
+                        {% set exams_in_day = exams_grouped.get(day, []) %}
+                        {% if exams_in_day %}
+                            {% for exam in exams_in_day %}
+                            <div class="mb-2">
+                                <span class="fw-bold">{{ exam.course.name }}</span><br>
+                                <span><i class="fas fa-clock me-1"></i>{{ exam.time }}</span><br>
+                                <span><i class="fas fa-door-open me-1"></i>Phòng: {{ exam.room }}</span>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <span class="text-muted">Không có lịch thi</span>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

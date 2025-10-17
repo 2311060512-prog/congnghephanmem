@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>{% if student %}Edit{% else %}New{% endif %} Student</h2>
+  <form method="post">
+    <label>Student ID: <input name="student_id" value="{{ student.student_id if student }}"></label><br>
+    <label>Full name: <input name="full_name" value="{{ student.full_name if student }}"></label><br>
+    <label>DOB: <input name="dob" value="{{ student.dob if student }}"></label><br>
+    <label>Email: <input name="email" value="{{ student.email if student }}"></label><br>
+    <button type="submit">Save</button>
+  </form>
+{% endblock %}

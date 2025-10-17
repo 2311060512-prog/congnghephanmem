@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>News</h2>
+  <form method="post">
+    <input name="title" placeholder="Title" required>
+    <input name="content" placeholder="Short content" required>
+    <button type="submit">Post</button>
+  </form>
+
+  <ul>
+    {% for n in items %}
+      <li><b>{{ n.title }}</b> - {{ n.content }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

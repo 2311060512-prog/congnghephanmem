@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <!-- Chào mừng và Thống kê -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <i class="fas fa-home me-2"></i>Trang chủ
+                    </h4>
+                    <p class="mb-0">Chào mừng, {{ username }}!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Thống kê -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card bg-info text-white h-100">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-users me-2"></i>Sinh viên
+                    </h5>
+                    <p class="display-4">{{ stats.students }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-success text-white h-100">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-book me-2"></i>Môn học
+                    </h5>
+                    <p class="display-4">{{ stats.courses }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-warning text-white h-100">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-newspaper me-2"></i>Tin tức
+                    </h5>
+                    <p class="display-4">{{ stats.news }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Thời khóa biểu và Tin tức -->
+    <div class="row">
+        <!-- Thời khóa biểu -->
+        <div class="col-md-8 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-calendar-alt me-2"></i>Thời khóa biểu
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Thứ</th>
+                                    <th>Môn học</th>
+                                    <th>Thời gian</th>
+                                    <th>Phòng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for schedule in schedules %}
+                                <tr>
+                                    <td>
+                                        {% set days = ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ nhật'] %}
+                                        {{ days[schedule.day_of_week] }}
+                                    </td>
+                                    <td>{{ schedule.course.name }}</td>
+                                    <td>{{ schedule.start_time }} - {{ schedule.end_time }}</td>
+                                    <td>{{ schedule.room }}</td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="4" class="text-center">Không có lịch học</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tin tức mới nhất -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-newspaper me-2"></i>Tin tức mới nhất
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% for news in latest_news %}
+                    <div class="news-item {% if not loop.last %}border-bottom pb-3 mb-3{% endif %}">
+                        <h6>{{ news.title }}</h6>
+                        <p class="text-muted mb-0">{{ news.content[:100] }}{% if news.content|length > 100 %}...{% endif %}</p>
+                    </div>
+                    {% else %}
+                    <p class="text-center">Không có tin tức mới</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
