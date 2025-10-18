@@ -332,7 +332,8 @@ def payments():
     total_withdrawn = db.session.query(db.func.sum(Payment.amount)).filter(Payment.status == "withdrawn").scalar() or 0
     total_free = db.session.query(db.func.sum(Payment.amount)).filter(Payment.status == "free").scalar() or 0
 
-data = {
+   
+    data = {
     "khoan_phai_nop": total_pending,
     "khoan_duoc_mien": total_free,
     "khoan_da_nop": total_paid,
