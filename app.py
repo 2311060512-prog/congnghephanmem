@@ -332,17 +332,17 @@ def payments():
     total_withdrawn = db.session.query(db.func.sum(Payment.amount)).filter(Payment.status == "withdrawn").scalar() or 0
     total_free = db.session.query(db.func.sum(Payment.amount)).filter(Payment.status == "free").scalar() or 0
 
-    data = {
-        "khoan_phai_nop": total_pending,
-        "khoan_duoc_mien": total_free,
-        "khoan_da_nop": total_paid,
-        "khoan_da_rut": total_withdrawn,
-        "tong_no_chung": total_pending - total_paid,
-        "tong_du_chung": total_paid - total_withdrawn,
-        "phieu_da_thu": total_paid,
-        "phieu_da_rut": total_withdrawn,
-        "phieu_hoa_don": 0
-    }
+data = {
+    "khoan_phai_nop": total_pending,
+    "khoan_duoc_mien": total_free,
+    "khoan_da_nop": total_paid,
+    "khoan_da_rut": total_withdrawn,
+    "tong_no_chung": max(total_pending - total_paid, 0),
+    "tong_du_chung": total_paid - total_withdrawn,
+    "phieu_da_thu": total_paid,
+    "phieu_da_rut": total_withdrawn,
+    "phieu_hoa_don": 0
+}
 
     return render_template(
         'payments.html',
